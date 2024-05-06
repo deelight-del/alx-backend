@@ -56,7 +56,7 @@ class Server:
                     else page + 1
             ),
             "prev_page": (
-                None if page <= 0
+                None if page <= 1
                 else page - 1
             ),
             "total_pages": math.ceil(len(self.dataset()) / page_size)
