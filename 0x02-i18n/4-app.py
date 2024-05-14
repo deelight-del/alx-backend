@@ -24,13 +24,21 @@ app.config.from_object(Config)
 def get_locale():
     """Function to get the best matched
     locale depending on our LANGUAGES"""
+    if (
+        request.args.get('locale') is not None
+        and request.args.get('locale') in
+        app.config["LANGUAGES"]
+            ):
+
+        print(request.args.get('locale'))
+        return request.args.get('locale')
     return request.accept_languages.best_match(app.config["LANGUAGES"])
 
 
 @app.route("/")
 def hello_world():
     """Renders html template"""
-    return render_template('3-index.html')
+    return render_template('4-index.html')
 
 
 if __name__ == "__main__":
