@@ -29,7 +29,8 @@ def get_locale():
 
 @app.route("/", strict_slashes=False)
 def hello_world():
-    """Renders html template"""
+    """Renders html template from the
+    3-html file in the templates"""
     return render_template('3-index.html')
 
 
