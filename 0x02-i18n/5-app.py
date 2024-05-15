@@ -2,6 +2,7 @@
 """This module implements a flask application"""
 
 
+import typing
 from flask import Flask, render_template, request, g
 from flask_babel import Babel
 
@@ -42,7 +43,7 @@ users = {
 }
 
 
-def get_user() -> Any:
+def get_user() -> typing.Any:
     """Function that will get a user in a given
     request session"""
     user_id = request.args.get('login_as')
