@@ -48,7 +48,7 @@ def get_locale() -> str:
 
 
 @babel.timezoneselector
-def get_timezone():
+def get_timezone() -> str:
     """Function to return the timezone from
     URL parameter, and other sources as needed"""
     user_timezone = ""
