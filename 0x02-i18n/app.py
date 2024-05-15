@@ -85,7 +85,7 @@ def before_request():
 
 
 @app.route("/", strict_slashes=False)
-def hello_world():
+def hello_world() -> str:
     """Renders html template from the 4th index
     html page in the templates folder"""
     return render_template('index.html',

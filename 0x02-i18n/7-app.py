@@ -84,10 +84,10 @@ def before_request():
 
 
 @app.route("/", strict_slashes=False)
-def hello_world():
+def hello_world() -> str:
     """Renders html template from the 4th index
     html page in the templates folder"""
-    return render_template('6-index.html', user=flask.g.get("user"))
+    return render_template('7-index.html', user=flask.g.get("user"))
 
 
 if __name__ == "__main__":
