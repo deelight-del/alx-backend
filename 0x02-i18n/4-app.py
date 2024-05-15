@@ -30,7 +30,6 @@ def get_locale():
         app.config["LANGUAGES"]
             ):
 
-        print(request.args.get('locale'))
         return request.args.get('locale')
     return request.accept_languages.best_match(app.config["LANGUAGES"])
 
