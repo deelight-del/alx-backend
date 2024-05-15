@@ -5,6 +5,7 @@
 from flask import Flask, render_template, request
 from flask_babel import Babel
 import flask
+import pytz
 
 
 app = Flask(__name__)
@@ -21,14 +22,18 @@ class Config:
 app.config.from_object(Config)
 
 
+users = {
+    1: {"name": "Balou", "locale": "fr", "timezone": "Europe/Paris"},
+    2: {"name": "Beyonce", "locale": "en", "timezone": "US/Central"},
+    3: {"name": "Spock", "locale": "kg", "timezone": "Vulcan"},
+    4: {"name": "Teletubby", "locale": None, "timezone": "Europe/London"},
+}
+
+
 @babel.localeselector
 def get_locale() -> str:
     """Function to get the best matched
     locale depending on our LANGUAGES"""
-    for key, value in request.args.items():
-        print(f"Parameter: {key}, Value: {value}")
-    #print(flask.request.url)
-    #print(flask.request.args)
     if (
         request.args.get('locale') is not None
         and request.args.get('locale') in
@@ -41,12 +46,23 @@ def get_locale() -> str:
     return request.accept_languages.best_match(app.config["LANGUAGES"])
 
 
-users = {
-    1: {"name": "Balou", "locale": "fr", "timezone": "Europe/Paris"},
-    2: {"name": "Beyonce", "locale": "en", "timezone": "US/Central"},
-    3: {"name": "Spock", "locale": "kg", "timezone": "Vulcan"},
-    4: {"name": "Teletubby", "locale": None, "timezone": "Europe/London"},
-}
+@babel.timezoneselector
+def get_timezone():
+    """Function to return the timezone from
+    URL parameter, and other sources as needed"""
+    user_timezone = ""
+    if request.args.get('timezone'):
+        user_timezone = request.args.get('timezone')
+        try:
+            return pytz.timezone(user_timezone)
+        except pytz.exceptions.UnknownTimeZoneError:
+            pass
+    if flask.g.user:
+        user_timezone = flask.g.user.get("timezone")
+        try:
+            return pytz.timezone(user_timezone)
+        except pytz.exceptions.UnknownTimeZoneError:
+            return pytz.utc
 
 
 def get_user():
