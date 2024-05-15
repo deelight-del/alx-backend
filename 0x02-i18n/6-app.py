@@ -22,7 +22,7 @@ app.config.from_object(Config)
 
 
 @babel.localeselector
-def get_locale():
+def get_locale() -> str:
     """Function to get the best matched
     locale depending on our LANGUAGES"""
     if (
@@ -31,7 +31,8 @@ def get_locale():
         app.config["LANGUAGES"]
             ):
         return request.args.get('locale')
-    if flask.g.user is not None:
+    if (flask.g.user is not None and
+            flask.g.user["locale"] in app.config["LANGUAGES"]):
         return flask.g.user["locale"]
     return request.accept_languages.best_match(app.config["LANGUAGES"])
 
