@@ -1,5 +1,7 @@
 #!/usr/bin/env python3
-"""This module implements a flask application"""
+"""In This module we
+implements a flask application for different
+internationalization and localization behaviour"""
 
 
 from flask import Flask, render_template, request
