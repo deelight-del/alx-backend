@@ -21,7 +21,7 @@ app.config.from_object(Config)
 
 
 @babel.localeselector
-def get_locale():
+def get_locale() -> str:
     """Function to get the best matched
     locale depending on our LANGUAGES"""
     if (
@@ -42,7 +42,7 @@ users = {
 }
 
 
-def get_user():
+def get_user() -> Any:
     """Function that will get a user in a given
     request session"""
     user_id = request.args.get('login_as')
@@ -52,13 +52,13 @@ def get_user():
 
 
 @app.before_request
-def before_request():
+def before_request() -> None:
     """Function to run before every request"""
     g.user = get_user() if get_user() is not None else ""
 
 
 @app.route("/", strict_slashes=False)
-def hello_world():
+def hello_world() -> str:
     """Renders html template from the 4th index
     html page in the templates folder"""
     return render_template('5-index.html', user=g.user)
