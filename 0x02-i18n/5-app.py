@@ -2,9 +2,8 @@
 """This module implements a flask application"""
 
 
-from flask import Flask, render_template, request
-from flask_babel import Babel, _
-import flask
+from flask import Flask, render_template, request, g
+from flask_babel import Babel
 
 
 app = Flask(__name__)
@@ -48,21 +47,21 @@ def get_user():
     request session"""
     user_id = request.args.get('login_as')
     if user_id is not None and user_id.isdigit():
-        return users.get(int(user_id))
+        return users.get(int(user_id), None)
     return None
 
 
 @app.before_request
 def before_request():
     """Function to run before every request"""
-    flask.g.user = get_user() if get_user() is not None else ""
+    g.user = get_user() if get_user() is not None else ""
 
 
 @app.route("/", strict_slashes=False)
 def hello_world():
     """Renders html template from the 4th index
     html page in the templates folder"""
-    return render_template('5-index.html', user=flask.g.user)
+    return render_template('5-index.html', user=g.user)
 
 
 if __name__ == "__main__":
