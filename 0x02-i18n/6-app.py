@@ -30,8 +30,9 @@ def get_locale():
         and request.args.get('locale') in
         app.config["LANGUAGES"]
             ):
-
         return request.args.get('locale')
+    if flask.g.user is not None:
+        return flask.g.user["locale"]
     return request.accept_languages.best_match(app.config["LANGUAGES"])
 
 
@@ -57,13 +58,15 @@ def before_request():
     """Function to run before every request"""
     if get_user():
         flask.g.user = get_user()
+    else:
+        flask.g.user = None
 
 
 @app.route("/", strict_slashes=False)
 def hello_world():
     """Renders html template from the 4th index
     html page in the templates folder"""
-    return render_template('5-index.html', user=flask.g.user)
+    return render_template('6-index.html', user=flask.g.get("user"))
 
 
 if __name__ == "__main__":
