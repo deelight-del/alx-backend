@@ -25,6 +25,7 @@ app.config.from_object(Config)
 def get_locale() -> str:
     """Function to get the best matched
     locale depending on our LANGUAGES"""
+    print(flask.request.url)
     if (
         request.args.get('locale') is not None
         and request.args.get('locale') in
